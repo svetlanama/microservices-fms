@@ -1,0 +1,27 @@
+version: '3'
+
+# This is template only
+# TODO: re-configure
+services:
+  app:
+    build:
+      context: .
+      dockerfile: ./docker/App.Dockerfile
+    container_name: app
+    volumes:
+      - ./:/var/www/app:cached
+      - /var/www/app/node_modules # anonymous volume for node_modules only
+    restart: always
+    ports:
+      - 3000:3000
+    links:
+      - mongodb
+
+  mongodb:
+    container_name: mongodb
+    image: mongo:latest
+    restart: always
+    ports:
+      - 27017:27017
+
+# Requires more configuration for Kafka
